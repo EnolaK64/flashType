@@ -43,7 +43,7 @@ function createBody() {
 
 async function postJSON(donnees) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr:47000/stats", {
+        const reponse = await fetch("https://server.flashtype.fr/stats", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

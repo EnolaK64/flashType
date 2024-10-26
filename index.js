@@ -599,7 +599,7 @@ function formatBody(score) {
 
 async function postJSON(data) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr:47000/save", {
+        const reponse = await fetch("https://server.flashtype.fr/save", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

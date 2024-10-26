@@ -28,7 +28,7 @@ for (let i = 0; i < tabs.length; i++) {
 
 async function getJSON() {
     try {
-        const response = await fetch("https://server.flashtype.fr:47000/leaderboard");
+        const response = await fetch("https://server.flashtype.fr/leaderboard");
 
         const resultat = await response.json();
         displayStats(resultat)

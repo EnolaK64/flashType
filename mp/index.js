@@ -7,7 +7,7 @@ if(theme === "dark"){
 
 async function postJSON(donnees) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr:47000/" + mode, {
+        const reponse = await fetch("https://server.flashtype.fr/" + mode, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
