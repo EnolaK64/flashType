@@ -44,6 +44,7 @@ body {
     height: 100vh;
     overflow: hidden;
     transition: .3s;
+    margin: 0px;
 }
 
 
@@ -922,7 +923,6 @@ body[data-theme=light] .dark-mode-logo {
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    border-radius: 20px;
 }
 
 #welcomeScreen > img{

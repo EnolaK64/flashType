@@ -1,13 +1,13 @@
 import * as lib from "../lib/loader.js"
-let mode
+let mode = ["login"]
 let theme = localStorage.getItem("theme")
-if(theme === "dark"){
+if (theme === "dark") {
     document.body.classList.add("dark")
 }
 
 async function postJSON(donnees) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr/" + mode, {
+        const reponse = await fetch("https://server.flashtype.fr/" + mode[0], {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -41,13 +41,14 @@ async function submit(data) {
         sessionStorage.setItem("token", serverResponse.token)
         redirect()
 
+
     }
     //when the username is already taken
-    else if (serverResponse.exist === true && mode === "signup") {
+    else if (serverResponse.exist === true && mode[0] === "signup") {
         issue("This username already exist", signup)
     }
     //when successfully loged
-    else if (serverResponse.exist === true && mode === "login") {
+    else if (serverResponse.exist === true && mode[0] === "login") {
         sessionStorage.setItem("token", serverResponse.token)
         redirect()
     }
@@ -55,7 +56,7 @@ async function submit(data) {
     else if (serverResponse.exist === "password") {
         issue("Invalid password", login)
     }
-    else if (serverResponse.exist === false && mode === "login") {
+    else if (serverResponse.exist === false && mode[0] === "login") {
         issue("This account doesn't exist", login)
     }
 }
@@ -96,10 +97,13 @@ function getData(element) {
     }
 
     else {
-        console.log(element.id)
-        mode = element.id.split("P")[0]
         submit([username.value, password.value])
     }
+}
+
+const submitBtns = {
+    "login": document.getElementById("submitLogin"),
+    "sign": document.getElementById("submitSign")
 }
 function issue(issue, errorElement) {
     if (errorElement.childNodes.length > 0) {
@@ -111,16 +115,24 @@ function issue(issue, errorElement) {
     issuesContainer.appendChild(issuesNode)
     errorElement.appendChild(issuesContainer)
     errorElement.classList.add("shake")
+
+    const pageButton = mode[1].querySelector(".submitBtn")
+    pageButton.childNodes[0].remove()
+    pageButton.innerHTML = toUpperCaseFirstLetter(mode[0])
+
 }
 
 const accounts = document.querySelectorAll(".account")
 for (let i = 0; i < accounts.length; i++) {
     accounts[i].addEventListener("click", (e) => {
-        if (e.currentTarget.className.split(" ").includes("collapsed")) {
+        mode[0] = e.currentTarget.id.split("Page")[0]
+
+        mode[1] = e.currentTarget
+        console.log(mode[1]);
+        if (e.currentTarget.classList[1] === "collapsed") {
             if (e.currentTarget === accounts[0]) {
                 accounts[1].classList.add("collapsed")
                 accounts[0].classList.remove("collapsed")
-                mode
             }
             else {
                 accounts[0].classList.add("collapsed")
@@ -131,5 +143,8 @@ for (let i = 0; i < accounts.length; i++) {
 
 }
 
+function toUpperCaseFirstLetter(string){
+    return String(string).charAt(0).toUpperCase() + String(string).slice(1);
+}
 
 

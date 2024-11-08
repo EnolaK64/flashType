@@ -77,7 +77,6 @@ body.dark .account.collapsed{
 .messages{
     background-color: var(--error);
     position: relative;
-    top: 30px;
 }
 
 
