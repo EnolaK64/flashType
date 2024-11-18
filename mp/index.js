@@ -36,7 +36,7 @@ async function submit(data) {
     const signup = document.getElementById("signupPage").querySelector(".messages")
     console.log(serverResponse.exist)
     //when successfully created account
-    if (serverResponse.exist === false && mode === "signup") {
+    if (serverResponse.exist === false && mode[0] === "signup") {
         console.log(serverResponse);
         sessionStorage.setItem("token", serverResponse.token)
         redirect()
