@@ -48,12 +48,11 @@ function createElement(name, score, elementToAppend, suffix){
 }
 
 function displayStats(data){
-    const parsedData = JSON.parse(data)
     const frames = document.querySelectorAll(".frames")
-    console.log(parsedData)
+    console.log(data)
     for (let i = 0; i < frames.length; i++) {
-          for (let j = 0; j < parsedData[frames[i].id.split("-")[0]].length; j++) {
-            const element = parsedData[frames[i].id.split("-")[0]][j];
+          for (let j = 0; j < data[frames[i].id.split("-")[0]].length; j++) {
+            const element = data[frames[i].id.split("-")[0]][j];
             if(frames[i].id === "timePlayed-frame"){
                 element[0] /= 60
                 element[0] /= 60
