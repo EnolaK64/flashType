@@ -5,3 +5,8 @@
 #switch{
     left: 600px;
 }
+
+#score-frame{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
