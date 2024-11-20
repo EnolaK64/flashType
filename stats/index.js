@@ -1,4 +1,6 @@
 import { redirect } from "../lib/redirect.js"
+import { drawIcons } from "../lib/drawIcons.js"
+
 
 const tabs = document.querySelectorAll(".tabs")
 let online = JSON.parse(localStorage.getItem("online"))
@@ -62,31 +64,11 @@ async function postJSON(donnees) {
     }
 }
 
+//get icons
+const icons = ["returnIcon"]
+drawIcons(icons)
+
 async function getStats() {
-
-    //get SVGs
-    const SVGs = [
-        "../assets/back-arrow.svg"
-    ]
-
-    const elements = [
-        ".return"
-    ]
-
-    for (let i = 0; i < elements.length; i++) {
-        const fetchedSVG = await fetch(SVGs[i])
-
-        const responseSVG = await fetchedSVG.text()
-        const selectedElement = document.querySelectorAll(elements[i])
-
-        for (let j = 0; j < selectedElement.length; j++) {
-            selectedElement[j].innerHTML = responseSVG
-
-        }
-    }
-
-
-
     let stats
     if (online === true) {
         stats = await createBody()

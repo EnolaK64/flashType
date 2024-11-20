@@ -1,6 +1,15 @@
+import {drawIcons} from "../../lib/drawIcons.js"
+
+const icons = ["returnIcon"]
+drawIcons(icons)
+
+
+    
+
+
 const tabs = document.querySelectorAll(".tabs")
 const theme = localStorage.getItem("theme")
-if(theme === "dark"){
+if (theme === "dark") {
     document.body.classList.add("dark")
 }
 
@@ -10,6 +19,7 @@ for (let i = 0; i < tabs.length; i++) {
         if (selected != null) {
             selected.classList.remove("selected")
         }
+
 
         const frameSelected = document.querySelector(".frame-select")
 
@@ -37,33 +47,35 @@ async function getJSON() {
     }
 }
 getJSON()
-function createElement(name, score, elementToAppend, suffix){
+function createElement(name, score, elementToAppend, suffix) {
     const element = document.createElement("p")
-    if(suffix === undefined){
+    if (suffix === undefined) {
         suffix = ""
     }
     const textNode = document.createTextNode(name + ": " + score + suffix)
     element.appendChild(textNode)
-    elementToAppend.appendChild(element)    
+    elementToAppend.appendChild(element)
 }
 
-function displayStats(data){
+function displayStats(data) {
     const frames = document.querySelectorAll(".frames")
     console.log(data)
     for (let i = 0; i < frames.length; i++) {
-          for (let j = 0; j < data[frames[i].id.split("-")[0]].length; j++) {
+        for (let j = 0; j < data[frames[i].id.split("-")[0]].length; j++) {
             const element = data[frames[i].id.split("-")[0]][j];
-            if(frames[i].id === "timePlayed-frame"){
+            if (frames[i].id === "timePlayed-frame") {
                 element[0] /= 60
                 element[0] /= 60
-                element[0] = Math.round(element[0]*100)/100
+                element[0] = Math.round(element[0] * 100) / 100
                 console.log(element[0]);
-                
-                createElement(element[1], element[0],frames[i],"h")
+
+                createElement(element[1], element[0], frames[i], "h")
             }
-            else{
-                createElement(element[1], element[0],frames[i])
+            else {
+                createElement(element[1], element[0], frames[i])
             }
-          }
+        }
     }
 }
+
+
