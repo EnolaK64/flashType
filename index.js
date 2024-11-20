@@ -208,7 +208,7 @@ async function getData(onlyWords) {
         "moonIcon",
         "infinityIcon",
         "languageIcon",
-        "syncDb",
+        "syncDbIcon",
         "statsIcon",
         "onlineIcon",
         "offlineIcon",
