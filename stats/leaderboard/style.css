@@ -1,3 +1,13 @@
+::-webkit-scrollbar{
+    width: 10px;
+    background-color: var(--dark3);
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--dark1);
+    border-radius: 100px;
+}
+
 #score{
     font-size: x-large;
 }
