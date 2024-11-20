@@ -344,11 +344,18 @@ function previousLetter() {
     }
 }
 
-function endGame() {
+function endGame(cancel = true) {
     gameEnded = true
     playing = false
-    body.setAttribute("data-status", "end")
-    calcStats()
+    console.log()
+    if(cancel === true){
+        body.setAttribute("data-status", "start")
+    }
+    else{
+        calcStats()
+        body.setAttribute("data-status", "end")
+
+    }
 }
 
 function restartGame() {
@@ -725,6 +732,11 @@ addEventListener('keydown', (e) => {
         if (e.code == "Backspace") {
             previousLetter()
         }
+        else if(e.code === "Escape"){
+            endGame(true)
+            //do something because dont
+        }
+
         else {
             keyPressed(e)
         }
