@@ -1,4 +1,5 @@
 import { redirect } from "./lib/redirect.js"
+import { drawIcons } from "./lib/drawIcons.js"
 
 const primary = document.getElementById("primary")
 const secondary = document.getElementById("secondary")
@@ -55,6 +56,7 @@ let errorsInWord = 0
 let accuracy = 0
 let successRate = 0
 let wordsWritten = 0
+let correctWords = 0
 let wpm = 0
 let wordsFailed = 0
 let wordFailedBool = false
@@ -200,48 +202,20 @@ async function getData(onlyWords) {
     }
 
     //get SVGs
-    const SVGs = [
-        "./assets/timer.svg",
-        "./assets/settings.svg",
-        "./assets/sun.svg",
-        "./assets/moon.svg",
-        "./assets/infinity.svg",
-        "./assets/language.svg",
-        "./assets/sync.svg",
-        "./assets/stats-icon.svg",
-        "./assets/online.svg",
-        "./assets/offline.svg",
-        "./assets/account.svg"
-
+    const icons = [
+        "timerIcon",
+        "sunIcon",
+        "moonIcon",
+        "infinityIcon",
+        "languageIcon",
+        "syncDb",
+        "statsIcon",
+        "onlineIcon",
+        "offlineIcon",
+        "connectIcon",
+        "settingsIcon"
     ]
-
-    const elements = [
-        ".timerIcon",
-        ".settingsIcon",
-        ".sunIcon",
-        ".moonIcon",
-        ".infinityIcon",
-        ".languageIcon",
-        ".syncDb",
-        ".stats-icon",
-        ".onlineIcon",
-        ".offlineIcon",
-        ".connectIcon"
-
-    ]
-
-    for (let i = 0; i < elements.length; i++) {
-        const fetchedSVG = await fetch(SVGs[i])
-
-        const responseSVG = await fetchedSVG.text()
-        const selectedElement = document.querySelectorAll(elements[i])
-
-        for (let j = 0; j < selectedElement.length; j++) {
-            selectedElement[j].innerHTML = responseSVG
-
-        }
-    }
-
+    drawIcons(icons)
     removeLoaders()
 
     init()
@@ -440,6 +414,7 @@ function endWord() {
         if (maxStreak < streak) {
             maxStreak = streak
         }
+        correctWords++
     }
     wordsWritten++
 }
@@ -519,12 +494,13 @@ function sumArray(array) {
 
 function calcStats() {
     if (infinit === false) {
-        wpm = Math.round(wordsWritten / (maxTime / 60))
-        console.log(wordsWritten / (maxTime / 60))
+        wpm = Math.round(correctWords / (maxTime / 60))
+        console.log(correctWords)
     }
 
     else {
-        wpm = Math.round(wordsWritten / (time / 60))
+        wpm = Math.round((correctWords - wordsFailed) / (time / 60))
+        console.log(wordsFailed)
         console.log(wordsWritten / (time / 60))
     }
 
