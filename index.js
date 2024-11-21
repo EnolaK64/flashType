@@ -208,7 +208,7 @@ async function getData(onlyWords) {
         "moonIcon",
         "infinityIcon",
         "languageIcon",
-        "syncDb",
+        "syncDbIcon",
         "statsIcon",
         "onlineIcon",
         "offlineIcon",
@@ -344,18 +344,11 @@ function previousLetter() {
     }
 }
 
-function endGame(cancel = true) {
+function endGame() {
     gameEnded = true
     playing = false
-    console.log()
-    if(cancel === true){
-        body.setAttribute("data-status", "start")
-    }
-    else{
-        calcStats()
-        body.setAttribute("data-status", "end")
-
-    }
+    body.setAttribute("data-status", "end")
+    calcStats()
 }
 
 function restartGame() {
@@ -375,6 +368,7 @@ function restartGame() {
     wordsFailed = 0
     wordFailedBool = false
     wordsLengthAvg = []
+    correctWords = 0
     streak = 0
     maxStreak = 0
     gameEnded = false
@@ -731,11 +725,6 @@ addEventListener('keydown', (e) => {
         if (e.code == "Backspace") {
             previousLetter()
         }
-        else if(e.code === "Escape"){
-            endGame(true)
-            //do something because dont
-        }
-
         else {
             keyPressed(e)
         }
@@ -808,7 +797,9 @@ tCustom.addEventListener('focusout', (e) => {
 })
 
 tCustom.addEventListener('change', () => {
-    if (+tCustom.value <= 0) {
+    console.log(+tCustom > 0 && +tCustom < 1, +tCustom > 0,);
+    
+    if (+tCustom.value <= 0 || (+tCustom.value> 0 && +tCustom.value < 1)) {
         tCustom.value = 1
     }
     else if (tCustom.value == "15") {
