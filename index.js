@@ -368,6 +368,7 @@ function restartGame() {
     wordsFailed = 0
     wordFailedBool = false
     wordsLengthAvg = []
+    correctWords = 0
     streak = 0
     maxStreak = 0
     gameEnded = false
@@ -796,7 +797,9 @@ tCustom.addEventListener('focusout', (e) => {
 })
 
 tCustom.addEventListener('change', () => {
-    if (+tCustom.value <= 0) {
+    console.log(+tCustom > 0 && +tCustom < 1, +tCustom > 0,);
+    
+    if (+tCustom.value <= 0 || (+tCustom.value> 0 && +tCustom.value < 1)) {
         tCustom.value = 1
     }
     else if (tCustom.value == "15") {
