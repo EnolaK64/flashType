@@ -16,7 +16,7 @@
     left: 600px;
 }
 
-#score-frame{
+.frames{
     overflow-y: scroll;
     overflow-x: hidden;
 }
