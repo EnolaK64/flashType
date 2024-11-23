@@ -1,0 +1,66 @@
+:root{
+    --radius: 20px;
+}
+
+.issue{
+    border-right: solid var(--red) 10px;
+}
+
+
+.popUp{
+    min-width: 300px;
+    min-height: 50px;
+    position: relative;
+    background-color: var(--dark1);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 0 10px;
+}
+
+
+
+@keyframes slideLeft {
+    0%{
+        right: -600px;
+    }
+
+    80%{
+        right: 10px;
+    }
+
+    100%{
+        right: 0px;
+    }
+}
+
+
+#notifSpace{
+    position: fixed;
+    top:  10px;
+    right: 10px;
+    display: grid;
+    gap: 10px;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+@keyframes slideUp {
+    0%{
+        top:0px
+    }
+    99%{
+        top: -60px;
+    }
+    100%{
+        top: -60px;
+    }
+}
+
+.slideUp{
+    animation: slideUp .1s ease 0s 1 normal none;
+}
+
+.slideLeft{
+    animation: slideLeft 1s ease-in-out 0s 1 normal none;
+}

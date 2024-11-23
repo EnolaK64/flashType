@@ -1,9 +1,12 @@
 import * as lib from "../lib/loader.js"
+import { initPopups, issue } from "../lib/message.js"
 let mode = ["login"]
 let theme = localStorage.getItem("theme")
 if (theme === "dark") {
     document.body.classList.add("dark")
 }
+
+initPopups()
 
 async function postJSON(donnees) {
     try {
@@ -45,7 +48,7 @@ async function submit(data) {
     }
     //when the username is already taken
     else if (serverResponse.exist === true && mode[0] === "signup") {
-        issue("This username already exist", signup)
+        issue("This username already exist")
     }
     //when successfully loged
     else if (serverResponse.exist === true && mode[0] === "login") {
@@ -54,10 +57,10 @@ async function submit(data) {
     }
     //when the password is wrong
     else if (serverResponse.exist === "password") {
-        issue("Invalid password", login)
+        issue("Invalid password")
     }
     else if (serverResponse.exist === false && mode[0] === "login") {
-        issue("This account doesn't exist", login)
+        issue("This account doesn't exist")
     }
 }
 
@@ -87,12 +90,14 @@ function getData(element) {
     const password = element.querySelector(".password")
     const checkbox = element.querySelector("#checkbox")
 
-    if (element.id === "signupPage") {
-        if (checkbox.checked === false)
-            issue("You need to accept the policy", element.querySelector(".messages"))
+    if (mode[0] === "signup") {
+        if (checkbox.checked === false) {
+            issue("You need to accept the policy")
+            return
+        }
     }
     if (username.value === "" || password.value === "") {
-        issue("Please fill all fields", element.querySelector(".messages"))
+        issue("Please fill all fields")
         console.error("Empty field")
     }
 
@@ -105,22 +110,24 @@ const submitBtns = {
     "login": document.getElementById("submitLogin"),
     "sign": document.getElementById("submitSign")
 }
-function issue(issue, errorElement) {
-    if (errorElement.childNodes.length > 0) {
-        errorElement.childNodes[0].remove()
-    }
 
-    const issuesContainer = document.createElement("p")
-    const issuesNode = document.createTextNode(issue)
-    issuesContainer.appendChild(issuesNode)
-    errorElement.appendChild(issuesContainer)
-    errorElement.classList.add("shake")
 
-    const pageButton = mode[1].querySelector(".submitBtn")
-    pageButton.childNodes[0].remove()
-    pageButton.innerHTML = toUpperCaseFirstLetter(mode[0])
+// function issue(issue, errorElement) {
+//     if (errorElement.childNodes.length > 0) {
+//         errorElement.childNodes[0].remove()
+//     }
 
-}
+//     const issuesContainer = document.createElement("p")
+//     const issuesNode = document.createTextNode(issue)
+//     issuesContainer.appendChild(issuesNode)
+//     errorElement.appendChild(issuesContainer)
+//     errorElement.classList.add("shake")
+
+//     const pageButton = mode[1].querySelector(".submitBtn")
+//     pageButton.childNodes[0].remove()
+//     pageButton.innerHTML = toUpperCaseFirstLetter(mode[0])
+
+// }
 
 const accounts = document.querySelectorAll(".account")
 for (let i = 0; i < accounts.length; i++) {
@@ -143,7 +150,7 @@ for (let i = 0; i < accounts.length; i++) {
 
 }
 
-function toUpperCaseFirstLetter(string){
+function toUpperCaseFirstLetter(string) {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
 }
 
