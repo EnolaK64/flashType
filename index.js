@@ -797,7 +797,6 @@ tCustom.addEventListener('focusout', (e) => {
 })
 
 tCustom.addEventListener('change', () => {
-    console.log(+tCustom > 0 && +tCustom < 1, +tCustom > 0,);
     
     if (+tCustom.value <= 0 || (+tCustom.value> 0 && +tCustom.value < 1)) {
         tCustom.value = 1
