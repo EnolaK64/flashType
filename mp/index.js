@@ -1,16 +1,16 @@
 import * as lib from "../lib/loader.js"
+import * as url from "/urls.js"
 import { initPopups, issue } from "../lib/message.js"
 let mode = ["login"]
 let theme = localStorage.getItem("theme")
 if (theme === "dark") {
     document.body.classList.add("dark")
 }
-
 initPopups()
 
 async function postJSON(donnees) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr/" + mode[0], {
+        const reponse = await fetch(`${url.flashtype}/${mode[0]}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -1,5 +1,7 @@
 import { redirect } from "../lib/redirect.js"
 import { drawIcons } from "../lib/drawIcons.js"
+import * as url from "/urls.js"
+
 
 
 const tabs = document.querySelectorAll(".tabs")
@@ -45,7 +47,7 @@ function createBody() {
 
 async function postJSON(donnees) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr/stats", {
+        const reponse = await fetch(`${url.flashtype}/stats`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

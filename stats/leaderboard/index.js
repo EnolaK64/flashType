@@ -1,4 +1,6 @@
 import {drawIcons} from "../../lib/drawIcons.js"
+import * as url from "/urls.js"
+
 
 const icons = ["returnIcon"]
 drawIcons(icons)
@@ -38,7 +40,7 @@ for (let i = 0; i < tabs.length; i++) {
 
 async function getJSON() {
     try {
-        const response = await fetch("https://server.flashtype.fr/leaderboard");
+        const response = await fetch(`${url.flashtype}/leaderboard`);
 
         const resultat = await response.json();
         displayStats(resultat)

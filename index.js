@@ -1,5 +1,7 @@
 import { redirect } from "./lib/redirect.js"
 import { drawIcons } from "./lib/drawIcons.js"
+import * as url from "/urls.js"
+
 
 const primary = document.getElementById("primary")
 const secondary = document.getElementById("secondary")
@@ -576,7 +578,7 @@ function formatBody(score) {
 
 async function postJSON(data) {
     try {
-        const reponse = await fetch("https://server.flashtype.fr/save", {
+        const reponse = await fetch(`${url.flashtype}/save`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -708,7 +710,7 @@ restart.addEventListener("click", () => {
 })
 addEventListener('keydown', (e) => {
     console.log(e.code)
-    const ignoredKeys = ["AltLeft", "ControlLeft", "ControlRight", "Tab", "ShiftLeft", "CapsLock"," MetaLeft","MetaRight"]
+    const ignoredKeys = ["AltLeft", "ControlLeft", "ControlRight", "Tab", "ShiftLeft", "CapsLock", " MetaLeft", "MetaRight"]
     if (tCustomFocused == true) {
         return
     }
@@ -797,8 +799,8 @@ tCustom.addEventListener('focusout', (e) => {
 })
 
 tCustom.addEventListener('change', () => {
-    
-    if (+tCustom.value <= 0 || (+tCustom.value> 0 && +tCustom.value < 1)) {
+
+    if (+tCustom.value <= 0 || (+tCustom.value > 0 && +tCustom.value < 1)) {
         tCustom.value = 1
     }
     else if (tCustom.value == "15") {
