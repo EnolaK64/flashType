@@ -1,13 +1,13 @@
-import { redirect } from "./lib/redirect.js"
-import { drawIcons } from "./lib/drawIcons.js"
+import { redirect } from "/lib/redirect.js"
+import { drawIcons } from "/lib/drawIcons.js"
+import { createProfile } from "/lib/createProfile.js"
 import * as url from "/urls.js"
 
 
 const primary = document.getElementById("primary")
 const secondary = document.getElementById("secondary")
 const body = document.body
-const timer = document.getElementById("timeElapsed")
-const maxTimeDisplay = document.getElementById("maxTimeDisplay")
+const timer = document.getElementById("timerText")
 const restart = document.getElementById("restart")
 const endScreen = document.getElementById("endScreen")
 const settings = document.getElementById("settings")
@@ -29,7 +29,7 @@ let list
 let listInv
 let errorMode = true
 let maxTime = localStorage.getItem("maxTime")
-let time = 0
+let time
 let intervalID
 let infinit = false
 let firstLetter = true
@@ -214,7 +214,7 @@ async function getData(onlyWords) {
         "statsIcon",
         "onlineIcon",
         "offlineIcon",
-        "connectIcon",
+        "accountIcon",
         "settingsIcon"
     ]
     drawIcons(icons)
@@ -252,12 +252,7 @@ function init() {
     localStorage.setItem("nextWord", JSON.stringify(nextWord))
     list = primary.children
     listInv = secondary.children
-    if (infinit == false) {
-        timer.innerHTML = 0 + "s"
-    }
-    else {
-        timer.innerHTML = "Endless"
-    }
+    updateDisplayedTime()
 }
 let caretPos = 0
 let playing = false
@@ -291,17 +286,20 @@ function keyPressed(event) {
 
 function startTimer() {
     console.log("timer started");
+    time--
+    updateDisplayedTime()
     intervalID = setInterval(checkTime, 1000)
 }
 
 function checkTime() {
-    time++
+    time--
     if (infinit === false) {
-        if (time >= maxTime) {
+        if (time < 0) {
             clearInterval(intervalID)
+            time = maxTime
             endGame()
         }
-        timer.innerHTML = time + "s"
+        updateDisplayedTime()
     }
 
 }
@@ -376,6 +374,7 @@ function restartGame() {
     gameEnded = false
 
     init()
+
     body.setAttribute("data-status", "start")
 }
 
@@ -600,7 +599,6 @@ function downloadFile(filename, content) {
     element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
     element.setAttribute("download", filename);
 
-    element.style.display = "none";
     body.appendChild(element);
 
     element.click();
@@ -633,20 +631,24 @@ function updateStat(gameStats) {
 
 
 function updateDisplayedTime() {
-    if (infinit == true && maxTime == 0) {
+    if (body.getAttribute("data-status") !== "playing") {
+        time = maxTime
+    }
+    if (infinit === true && maxTime === 0) {
         settings.setAttribute("data-time", "endless")
         body.setAttribute("data-isEndless", "true")
-        maxTimeDisplay.innerHTML = ""
+        timer.innerHTML = "Endless"
     }
     else {
         infinit = false
         settings.setAttribute("data-time", "t" + maxTime + "s")
         body.setAttribute("data-isEndless", "false")
-        maxTimeDisplay.innerHTML = "/" + maxTime + "s"
+        timer.innerHTML = time + "s"
     }
 }
 
 function displayStats() {
+    timer.style.display = "none"
     //remove all childrens
     for (let i = 0; i < endScreen.children[2].children.length; i++) {
         let element = endScreen.children[2].children[i].children
@@ -875,6 +877,21 @@ changeMode.addEventListener("click", (e) => {
         checkToken()
     }
     e.stopPropagation()
+})
+
+const accountProfile = document.getElementById("account")
+accountProfile.addEventListener("click", (e) => {
+    const identity = localStorage.getItem("identity")
+    accountProfile.appendChild(createProfile(identity))
+    if (e.currentTarget.classList.includes("deployed")) {
+        e.currentTarget.classList.add("collapsed")
+        e.currentTarget.classList.remove("deployed")
+    }
+    else if(e.currentTarget.classList.includes("collapsed")){
+        e.currentTarget.classList.add("deployed")
+        e.currentTarget.classList.remove("collapsed")
+    }
+
 })
 
 
