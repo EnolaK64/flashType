@@ -1,0 +1,82 @@
+.discordConnection {
+    background-color: var(--blue);
+    border-radius: 20px;
+    position: absolute;
+    right: 10px;
+    padding: 10px 10px;
+    margin: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.discordConnection>a {
+    text-decoration: none;
+    color: #fff;
+    font-size: large;
+}
+
+#account span.discord-mark-blue {
+    position: absolute;
+    left: 10px;
+    justify-self: left;
+    width: 40px;
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+}
+
+#account .discord-mark-blue.icons>svg {
+    width: 40px;
+}
+
+.profileContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.deployed .profileContainer {
+    animation: deployAccountContainer 1s;
+}
+
+.collapsed .profileContainer {
+    animation: collapse-account-container 1s;
+}
+
+
+
+@keyframes deployAccountContainer {
+    0% {
+        opacity: 0%;
+        transform: translate(100px);
+    }
+
+    50% {
+        opacity: 0%;
+    }
+}
+
+
+@keyframes collapse-account-container {
+    0% {
+        display: flex;
+        overflow: hidden;
+        opacity: 100%;
+    }
+
+    
+    25%{
+        opacity: 0%;        
+    }
+    
+    40% {
+        transform: translate(-100px);
+        display: none;
+        /* transform: translate(-100px); */
+        opacity: 0%;
+        overflow: hidden;
+    }
+}

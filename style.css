@@ -34,6 +34,9 @@
 
     --width-when-deployed: 0px;
     --height-when-deployed: 0px;
+
+    --profile-width-deployed: 280px;
+
 }
 
 body {
@@ -317,12 +320,16 @@ body[data-theme=dark] .textsEnd {
 }
 
 body>.timer {
-    position: fixed;
-    top: 10px;
+    position: relative;
+    top: -150px;
     right: 10px;
     display: flex;
     min-width: 65px;
     align-items: center;
+}
+
+body>.timer * {
+    font-size: 70px;
 }
 
 
@@ -467,7 +474,8 @@ body[data-theme=dark] #settings {
         width: var(--width-when-deployed);
         height: var(--height-when-deployed);
     }
-    100%{
+
+    100% {
         padding-top: 10px;
         width: var(--width-when-deployed);
         padding-bottom: 10px;
@@ -540,7 +548,7 @@ body[data-theme=dark] #settings {
     cursor: pointer;
 }
 
-body[data-theme=dark] .options span svg{
+body[data-theme=dark] .options span svg {
     fill: #fff;
 }
 
@@ -617,11 +625,11 @@ body[data-theme=dark] .options {
     min-height: 64px;
 }
 
-#sync{
+#sync {
     grid-area: 2/8/3/9;
 }
 
-#syncDbBtn{
+#syncDbBtn {
     background-color: transparent;
     border: 0px;
 }
@@ -634,11 +642,11 @@ body[data-theme=dark] .moonIcon {
     display: none;
 }
 
-#langDiv{
+#langDiv {
     grid-area: 2/4/3/6;
 }
 
-#lang{
+#lang {
     border: 0px;
     border-radius: 20px;
     height: 30px;
@@ -648,12 +656,12 @@ body[data-theme=dark] .moonIcon {
     right: 10px;
 }
 
-body[data-theme=dark] #lang{
+body[data-theme=dark] #lang {
     background-color: var(--dark2);
     color: #fff;
 }
 
-#langDiv span.languageIcon{
+#langDiv span.languageIcon {
     position: absolute;
     left: 15px;
 }
@@ -797,13 +805,17 @@ body[data-theme=dark] #settings>.timer>input::placeholder {
 
 
 
-.icons>svg {
+.icons>* {
     width: 30px;
     height: auto;
     fill: var(--dark2);
 }
 
-body[data-theme=dark] .icons>svg {
+.icons>img{
+    border-radius: 100%;
+}
+
+body[data-theme=dark] .icons>* {
     width: 30px;
     height: auto;
     fill: var(--light2);
@@ -842,7 +854,7 @@ body[data-theme=dark] .icons>svg {
 
 
 
-#endGame{
+#endGame {
     border-radius: 20px;
     background-color: var(--blue);
     height: 30px;
@@ -857,16 +869,20 @@ body[data-theme=dark] .icons>svg {
     cursor: pointer;
 }
 
-#endGame:hover{
+#endGame:hover {
     border-radius: 10px;
     transform: scale(1.1);
 }
 
-body[data-isEndless=false] #endGame{
+body[data-isEndless=false] #endGame {
     display: none;
 }
 
-body[data-status=start] #endGame{
+body[data-status=start] #endGame {
+    display: none;
+}
+
+body[data-status=end] body>.timer {
     display: none;
 }
 
@@ -889,7 +905,7 @@ footer {
     align-items: end;
 }
 
-footer > #privacyPolicy{
+footer>#privacyPolicy {
     margin: 0px 0px 10px 0px;
 }
 
@@ -914,7 +930,7 @@ body[data-theme=light] .dark-mode-logo {
     display: none;
 }
 
-#welcomeScreen{
+#welcomeScreen {
     position: fixed;
     z-index: 200;
     backdrop-filter: blur(10px);
@@ -926,21 +942,21 @@ body[data-theme=light] .dark-mode-logo {
     background-color: #fff;
 }
 
-#welcomeScreen > img{
+#welcomeScreen>img {
     width: 25vw;
     height: 25vh;
     position: absolute;
     top: 0px;
 }
 
-#choice{
+#choice {
     position: absolute;
     bottom: 70px;
     display: flex;
     gap: 20px;
 }
 
-#welcomeScreen button{
+#welcomeScreen button {
     width: 160px;
     height: 80px;
     border-radius: 100px;
@@ -952,20 +968,117 @@ body[data-theme=light] .dark-mode-logo {
     background-color: var(--light1);
 }
 
-#welcomeScreen > p {
+#welcomeScreen>p {
     font-size: xx-large;
 }
 
-.online .offlineIcon{
+.online .offlineIcon {
     display: none;
 }
 
-.offline .onlineIcon{
+.offline .onlineIcon {
     display: none;
 }
+
 /* 
 #accept{
     background-color: var(--blue);
     color: #fff;
 } */
 
+#account {
+    display: flex;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    border-radius: 20px;
+    background-color: var(--dark4);
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+#account.deployed>span.accountIcon, #account.deployed>span.profilePic {
+    display: none;
+}
+
+#account.deployed {
+    align-items: center;
+    justify-content: center;
+    width: var(--profile-width-deployed);
+    padding: 10px 0;
+    border-radius: 20px;
+    animation: deployAccount 1s ease 0s 1 normal none;
+}
+
+@keyframes deployAccount {
+    0% {
+        width: 50px;
+        height: 50px;
+        padding: 0px;
+    }
+
+    25% {
+        width: var(--profile-width-deployed);
+        padding: 0 0;
+    }
+
+    50% {
+        padding: 10px 0;
+
+    }
+}
+
+#account.collapsed>*:not(.accountIcon) {
+    display: none;
+}
+
+#account.collapsed .accountIcon{
+    animation: collapseAccountIcon 1s;
+}
+
+#account.collapsed {
+    animation: collapseAccount 1s;
+
+}
+
+@keyframes collapseAccount {
+
+    0% {
+        width: var(--profile-width-deployed);
+        padding: 10px 0;
+    }
+
+    25%{
+        width: var(--profile-width-deployed);
+    }
+
+    60%{
+        width: 50px;
+        padding: 0 0;
+    }
+
+}
+
+@keyframes collapseAccountIcon {
+
+    0% {
+        display: none;
+        opacity: 0%;
+    }
+
+    50%{
+        display: none;
+    }
+
+    60%{
+        display: flex;
+        opacity: 0%;
+    }
+
+    80% {
+        opacity: 100%;
+    }
+}

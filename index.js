@@ -4,6 +4,7 @@ import { createProfile } from "/lib/createProfile.js"
 import * as url from "/urls.js"
 
 
+
 const primary = document.getElementById("primary")
 const secondary = document.getElementById("secondary")
 const body = document.body
@@ -90,6 +91,7 @@ else if (themeSelected === "dark") {
 body.setAttribute("data-theme", themeSelected)
 
 //multiplayer
+checkIdentity()
 let online = localStorage.getItem("online")
 let showedWLCSreen = localStorage.getItem("welcomeScreen")
 let token = sessionStorage.getItem("token")
@@ -132,11 +134,25 @@ onlineBtn.addEventListener("click", () => {
 })
 
 function checkToken() {
-    if (token === null && online === true) {
-        redirect("./mp")
-    }
+    // if (token === null && online === true) {
+    //     redirect("./mp")
+    // }
+
 }
 
+function checkIdentity(){
+    const identity = JSON.parse(localStorage.getItem("identity"))
+    if(identity != null){
+        const accountIconSpan = document.querySelector(".accountIcon")
+        const profilePic = new Image
+        profilePic.src = `${url.discordAvatar}/${identity.id}/${identity.avatar}`
+        accountIconSpan.classList.remove("accountIcon")
+        accountIconSpan.classList.add("profilePic")
+        profilePic.classList.add("icons")
+        accountIconSpan.append(profilePic)
+        console.log(profilePic)
+    }
+}
 
 if (online === true) {
     changeMode.classList.add("online")
@@ -719,8 +735,7 @@ addEventListener('keydown', (e) => {
 
     if (e.code == "Space") {
         if (playing === false) {
-            restartGame()
-        }
+            restartGame()        }
     }
     else if (ignoredKeys.includes(e.code)) {
         return
@@ -882,14 +897,21 @@ changeMode.addEventListener("click", (e) => {
 const accountProfile = document.getElementById("account")
 accountProfile.addEventListener("click", (e) => {
     const identity = localStorage.getItem("identity")
-    accountProfile.appendChild(createProfile(identity))
-    if (e.currentTarget.classList.includes("deployed")) {
+    if (e.currentTarget.classList.contains("deployed")) {
         e.currentTarget.classList.add("collapsed")
         e.currentTarget.classList.remove("deployed")
     }
-    else if(e.currentTarget.classList.includes("collapsed")){
+    else if (e.currentTarget.classList.contains("collapsed")) {
         e.currentTarget.classList.add("deployed")
         e.currentTarget.classList.remove("collapsed")
+    }
+    else {
+        e.currentTarget.classList.add("deployed")
+        accountProfile.appendChild(createProfile(identity))
+        const icons = [
+            "discord-mark-blue"
+        ]
+        drawIcons(icons)
     }
 
 })
