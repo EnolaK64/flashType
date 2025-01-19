@@ -140,9 +140,9 @@ function checkToken() {
 
 }
 
-function checkIdentity(){
+function checkIdentity() {
     const identity = JSON.parse(localStorage.getItem("identity"))
-    if(identity != null){
+    if (identity != null) {
         const accountIconSpan = document.querySelector(".accountIcon")
         const profilePic = new Image
         profilePic.src = `${url.discordAvatar}/${identity.id}/${identity.avatar}`
@@ -231,7 +231,8 @@ async function getData(onlyWords) {
         "onlineIcon",
         "offlineIcon",
         "accountIcon",
-        "settingsIcon"
+        "settingsIcon",
+        "logoutIcon"
     ]
     drawIcons(icons)
     removeLoaders()
@@ -735,7 +736,9 @@ addEventListener('keydown', (e) => {
 
     if (e.code == "Space") {
         if (playing === false) {
-            restartGame()        }
+            accountAnim.pause()
+            restartGame()
+        }
     }
     else if (ignoredKeys.includes(e.code)) {
         return
@@ -894,30 +897,77 @@ changeMode.addEventListener("click", (e) => {
     e.stopPropagation()
 })
 
+
+
 const accountProfile = document.getElementById("account")
 accountProfile.addEventListener("click", (e) => {
-    const identity = localStorage.getItem("identity")
-    if (e.currentTarget.classList.contains("deployed")) {
-        e.currentTarget.classList.add("collapsed")
-        e.currentTarget.classList.remove("deployed")
-    }
-    else if (e.currentTarget.classList.contains("collapsed")) {
-        e.currentTarget.classList.add("deployed")
-        e.currentTarget.classList.remove("collapsed")
+
+
+    if (e.currentTarget.classList.toggle("deployed")) {// if exist
+        buildProfile();
+        const dur = 0
+        let accountAnim = gsap.timeline({ paused: true });
+        accountAnim.set("#account", { padding: '0px' })
+        accountAnim.set(".profileContainer", { display: 'none' })
+        accountAnim.fromTo(".profilePic", { display: "block", opacity: "100%" }, { opacity: '0%', duration: 0.3 })
+        accountAnim.set(".profilePic", { display: 'none' })
+        accountAnim.set(".profileContainer", { display: 'flex', opacity: '0%' })
+        accountAnim.to("#account", { width: 'auto', duration: dur })
+        accountAnim.to("#account", { height: 'auto', padding: "10px 0", duration: dur })
+        accountAnim.to(".profileContainer", { opacity: '100%', duration: dur })
+        accountAnim.resume()
+
     }
     else {
-        e.currentTarget.classList.add("deployed")
-        accountProfile.appendChild(createProfile(identity))
-        const icons = [
-            "discord-mark-blue"
-        ]
-        drawIcons(icons)
-    }
+        const profileCont = document.querySelector(".profileContainer")
+        const accountRect = document.getElementById("account").getBoundingClientRect()
+        let animCollapse = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                console.log("removed")
+                profileCont.remove()
+            }
+        })
+        const dur = 1
+        animCollapse.set("#account", { width: accountRect.width, height: accountRect.height, duration: dur, padding: "0px", display: "flex" })
+        // animCollapse.set(".profilePic", { display: "none" })
+        animCollapse.set(".profileContainer", { display: "flex", opacity: "1" })
+        animCollapse.to(".profileContainer", { opacity: "0", duration: dur })
+        animCollapse.to("#account", { height: "50px", duration: dur })
+        animCollapse.to("#account", { width: "50px", duration: dur })
+        animCollapse.set(".profileContainer", { display: "none" })
+        animCollapse.set(".profilePic", { display: "block" })
+        animCollapse.to(".profilePic", { opacity: "100%" })
+        animCollapse.resume()
 
+    }
 })
 
+function buildProfile(display) {
+    const identity = localStorage.getItem("identity")
+    if (display) {
+        gsap.to(".profileContainer", {
+            opacity: "100%",
+            duration: .3,
+            ease: "power1.inOut"
+        })
+    }
+    else {
+        const profile = createProfile(identity)
+        accountProfile.appendChild(profile)
+        const profileContainer = document.querySelector(".profileContainer")
+        profileContainer.classList.add("deployed")
+        console.log(profileContainer)
+    }
 
 
+    const icons = [
+        "discord-mark-blue",
+        "statsIcon",
+        "logoutIcon"
+    ]
+    drawIcons(icons)
+}
 
 
 let UA = navigator.userAgent

@@ -1000,85 +1000,11 @@ body[data-theme=light] .dark-mode-logo {
     padding: 0px;
 }
 
-#account.deployed>span.accountIcon, #account.deployed>span.profilePic {
-    display: none;
-}
-
 #account.deployed {
-    align-items: center;
-    justify-content: center;
-    width: var(--profile-width-deployed);
     padding: 10px 0;
-    border-radius: 20px;
-    animation: deployAccount 1s ease 0s 1 normal none;
 }
 
-@keyframes deployAccount {
-    0% {
-        width: 50px;
-        height: 50px;
-        padding: 0px;
-    }
 
-    25% {
-        width: var(--profile-width-deployed);
-        padding: 0 0;
-    }
-
-    50% {
-        padding: 10px 0;
-
-    }
-}
-
-#account.collapsed>*:not(.accountIcon) {
-    display: none;
-}
-
-#account.collapsed .accountIcon{
-    animation: collapseAccountIcon 1s;
-}
-
-#account.collapsed {
-    animation: collapseAccount 1s;
-
-}
-
-@keyframes collapseAccount {
-
-    0% {
-        width: var(--profile-width-deployed);
-        padding: 10px 0;
-    }
-
-    25%{
-        width: var(--profile-width-deployed);
-    }
-
-    60%{
-        width: 50px;
-        padding: 0 0;
-    }
-
-}
-
-@keyframes collapseAccountIcon {
-
-    0% {
-        display: none;
-        opacity: 0%;
-    }
-
-    50%{
-        display: none;
-    }
-
-    60%{
-        display: flex;
-        opacity: 0%;
-    }
-
-    80% {
-        opacity: 100%;
-    }
+#account.deployed>span.accountIcon, #account.deployed>span.profilePic {
+    display: block;
 }
